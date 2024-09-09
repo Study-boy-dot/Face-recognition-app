@@ -1,0 +1,13 @@
+modelscope
+flask
+flask-cors
+torch
+opencv-python-headless
+requests
+torchvision
+huaweicloud-sdk-python-obs
+packaging
+python-dotenv
+sqlalchemy
+pymysql
+redis

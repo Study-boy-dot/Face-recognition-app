@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+    <script type="text/javascript" src="upload.js" defer></script>
+</head>
+<body>
+    <h1>Face Detection</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="image" accept="image/*" required>
+        <button type="submit">Upload Image</button>
+    </form>
+    <h2>Result:</h2>
+    <img id="outputImage" src="" alt="Output Image" style="display:none;">
+    <p id="responseText"></p>
+</body>
+</html>
