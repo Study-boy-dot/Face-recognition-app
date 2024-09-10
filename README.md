@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/acd7bab4-0d5b-42fc-b8fa-a38446cf2a5f)# Face-recognition-app
+# Face-recognition-app
 
 Using Huawei cloud resources to create an inference model for face recognition
 
