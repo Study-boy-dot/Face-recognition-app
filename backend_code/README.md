@@ -6,6 +6,15 @@
 |Python      |3.10.12     |
 |Docker      |27.2.0      |
 
+# Create Workload
+![Screenshot from 2024-09-10 15-14-37](https://github.com/user-attachments/assets/369af1e9-50e7-4d53-a584-a8e363f3240e)
+**Configuration**  
+Cores can set to 1, Memory set to 2048mib  
+Edit environment variables
+![image](https://github.com/user-attachments/assets/39766198-e918-43b8-9679-52f56c95c760)
+**Add Share storage for node has multiple pods**  
+![image](https://github.com/user-attachments/assets/2eed19aa-f5b7-46b3-a827-0270bd78a266)
+
 # Run script
 **Login SWR**
 ```
