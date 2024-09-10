@@ -1,62 +1,66 @@
 #!/bin/bash
+# Name: run.sh
+# Purpose:  build and push docker image to SWR
+# AUTHOR: Study-boy-dot
+# -----------------------------------------------------------------------------
 
 # Function to display usage information
 usage() {
-    echo "Usage: $0 <image-name> [-v <version>] [-s]"
-    exit 1
+	echo "Usage: $0 -n <image_name> [-v <version>] [-s]"
+	exit 1
 }
 
 # Initialize variables
 version_specified=""
-show_version_only=0
+show_version_only=false
 
 # Parse the options
-while getopts ":v:s" opt; do
-    case ${opt} in
-        v )
-            version_specified=$OPTARG
-            ;;
-        s )
-            show_version_only=1
-            ;;
-        \? )
-            usage
-            ;;
-    esac
+while getopts v:sn: flag
+do
+	case "${flag}" in
+		v ) version_specified=${OPTARG};;
+		s ) show_version_only=true;;
+		n ) name=${OPTARG};;
+		\?) usage;;
+	esac
 done
-shift $((OPTIND -1))
 
 # Check if the correct number of arguments is provided
-if [ $# -lt 1 ]; then
-    usage
-fi
+# if [ $# -lt 1 ]; then
+#     usage
+# fi
 
-# Assign the input argument to the variable 'name'
-name=$1
+if [ -z "$name" ]; then
+	name="frontend"
+	echo "INFO: Set image name as default: frontend"
+fi
 
 # Define the version file
 version_file="${name}_version.txt"
 
-# Check if the version file exists, if not, create it with version 1
-if [ ! -f "$version_file" ]; then
-    echo "1" > "$version_file"
-fi
+# Initialize version
+version="1.0"
 
 # Show the current version and exit if -s option is provided
-if [ $show_version_only -eq 1 ]; then
+if [ "$show_version_only" = true ]; then
     current_version="$(cat $version_file)"
     echo "Current version of ${name}: v${current_version}"
     exit 0
 fi
 
+# Check the version file exist
+if [ -f "${version_file}" ]; then
+    # Read the current version
+    current_version="$(cat ${version_file})"
+    # Get the digit before dot
+    major_version=${current_version%%.*}
+    # Update latest build version
+    version="$(( ${major_version} + 1)).0"
+fi
+
 # Determine the version to use
 if [ -n "$version_specified" ]; then
     version="$version_specified"
-else
-    # Read the current version from the version file
-    version="$(cat $version_file)"
-    # Increment the version if not specified by the user
-    version=$((version + 1))
 fi
 
 # Build the Docker image
@@ -65,17 +69,20 @@ docker build -t ${image}:v${version} .
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
+    # Update version file
+    echo "$version" > "$version_file"
     # Push the Docker image to the repository
     docker push ${image}:v${version}
     if [ $? -eq 0 ]; then
-        # Save the new version to the version file if not manually specified
-        if [ -z "$version_specified" ]; then
-            echo "$version" > "$version_file"
-        fi
         echo "Successfully built and pushed ${image}:v${version}"
     else
-        echo "Docker push failed. Version remains v${version}."
+        echo "Docker push failed. Version remains v$(cat ${version_file})."
     fi
 else
-    echo "Docker build failed. Version remains v${version}."
+    if [ -f "${version_file}" ]; then
+        version=$current_version
+    fi
+    # Update version file
+    echo "$version" > "$version_file"
+    echo "Docker build failed. Version remains v$(cat ${version_file})."
 fi
