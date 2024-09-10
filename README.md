@@ -28,14 +28,19 @@ Using Huawei cloud resources to create an inference model for face recognition
 
 ## Resources Explanation
 Focus on some complicated service only. Others just follow documentation to create.
+
 **CCE**: Using for deploying application
 1. Choose any type (I choose CCE Turbo Cluster)
 2. Create nodepool (I choose spec: c7n.4xlarge.2 | 16 vCPUs | 32 GiB)
 3. Create deployment & service in backend_code/README.md
+
+   
 **NAT**: Bind with CCE's node subnet, provide node with capability to connect public internet for downloading document
 1. Create NAT
 2. Buy EIP
 3. Create SNAT rule and bind with EIP bought just now
+
+   
 **SWR**: SWR is a service to upload CCE needed image
 1. Copy login cmd from SWR
 
