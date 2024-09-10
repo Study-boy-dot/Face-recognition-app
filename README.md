@@ -1,6 +1,7 @@
 # Face-recognition-app
 
-Using Huawei cloud resources to create an inference model for face recognition
+Using Huawei cloud resources to create an inference model for face recognition.  
+I have face the issue during installing docker on my Ubuntu 22.04. Here is a method to resolve it [Docker Installation](https://hackmd.io/@1Xh3vNpPQ1ebdS9gVi7gXg/rJ3NqfEjR).
 
 ## Example
 ![image](https://github.com/user-attachments/assets/b58142cb-266a-4916-babd-4f8713f4ae26)
